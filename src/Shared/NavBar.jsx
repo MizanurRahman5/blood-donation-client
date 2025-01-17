@@ -1,146 +1,104 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import logo from '../assets/14052021-06_generated-removebg-preview.png'
+import logo from '../assets/14052021-06_generated-removebg-preview.png';
 
 const Navbar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // User login state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    // Add your logout logic here
+  };
+
   return (
-    <nav className="bg-red-600 text-white">
-      <div className="max-w-6xl mx-auto flex justify-between items-center py-4">
-        {/* Logo */}
-        <div className="text-2xl font-bold">
-          <NavLink to="/" className="italic flex items-center">
-            <img className='max-w-[80px]' src={logo} alt="" />
-            <h3>BloodDonate</h3>
-          </NavLink>
-        </div>
+    <nav className="sticky top-0 z-50 bg-red-600 text-white">
+  <div className="max-w-6xl mx-auto flex justify-between items-center py-4">
+    {/* Logo */}
+    <div className="text-2xl font-bold">
+      <NavLink to="/" className="italic flex items-center">
+        <img className="max-w-[80px]" src={logo} alt="BloodDonate Logo" />
+        <h3>BloodDonate</h3>
+      </NavLink>
+    </div>
 
-        {/* Desktop Navigation Links */}
-        <div className="hidden md:flex font-semibold space-x-8">
+    {/* Desktop Navigation Links */}
+    <div className="hidden md:flex font-semibold space-x-8">
+      <NavLink
+        to="/donation-requests"
+        className={({ isActive }) =>
+          isActive ? 'text-gray-200' : 'hover:text-gray-200'
+        }
+      >
+        Donation Requests
+      </NavLink>
+      <NavLink
+        to="/blog"
+        className={({ isActive }) =>
+          isActive ? 'text-gray-200' : 'hover:text-gray-200'
+        }
+      >
+        Blog
+      </NavLink>
+      <NavLink
+        to="/search"
+        className={({ isActive }) =>
+          isActive ? 'text-gray-200' : 'hover:text-gray-200'
+        }
+      >
+        Search Donors
+      </NavLink>
+      {!isLoggedIn ? (
+        <NavLink
+          to="/login"
+          className={({ isActive }) =>
+            isActive ? 'text-gray-200' : 'hover:text-gray-200'
+          }
+        >
+          Login
+        </NavLink>
+      ) : (
+        <>
           <NavLink
-            to="/"
+            to="/funding"
             className={({ isActive }) =>
               isActive ? 'text-gray-200' : 'hover:text-gray-200'
             }
           >
-            Home
+            Funding
           </NavLink>
-          <NavLink
-            to="/about"
-            className={({ isActive }) =>
-              isActive ? 'text-gray-200' : 'hover:text-gray-200'
-            }
-          >
-            About Us
-          </NavLink>
-          <NavLink
-            to="/search-donors"
-            className={({ isActive }) =>
-              isActive ? 'text-gray-200' : 'hover:text-gray-200'
-            }
-          >
-            Search Donors
-          </NavLink>
-          <NavLink
-            to="/add-request"
-            className={({ isActive }) =>
-              isActive ? 'text-gray-200' : 'hover:text-gray-200'
-            }
-          >
-            Add Blood Request
-          </NavLink>
-          <NavLink
-            to="/register"
-            className={({ isActive }) =>
-              isActive ? 'text-gray-200' : 'hover:text-gray-200'
-            }
-          >
-            Register
-          </NavLink>
-          <NavLink
-            to="/login"
-            className={({ isActive }) =>
-              isActive ? 'text-gray-200' : 'hover:text-gray-200'
-            }
-          >
-            Login
-          </NavLink>
-        </div>
-
-        {/* Mobile Menu Icon */}
-        <div className="md:hidden">
-          <button
-            type="button"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="text-white focus:outline-none focus:ring-2 focus:ring-gray-300 rounded"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h16"
+          {/* User Avatar with Dropdown */}
+          <div className="relative group">
+            <div className="cursor-pointer flex items-center">
+              <img
+                src="https://via.placeholder.com/32"
+                alt="User Avatar"
+                className="w-8 h-8 rounded-full"
               />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Navigation Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-red-700 text-white">
-          <NavLink
-            to="/"
-            className="block px-4 py-2 hover:bg-red-800"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/about"
-            className="block px-4 py-2 hover:bg-red-800"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            About Us
-          </NavLink>
-          <NavLink
-            to="/search-donors"
-            className="block px-4 py-2 hover:bg-red-800"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Search Donors
-          </NavLink>
-          <NavLink
-            to="/add-request"
-            className="block px-4 py-2 hover:bg-red-800"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Add Blood Request
-          </NavLink>
-          <NavLink
-            to="/register"
-            className="block px-4 py-2 hover:bg-red-800"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Register
-          </NavLink>
-          <NavLink
-            to="/login"
-            className="block px-4 py-2 hover:bg-red-800"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Login
-          </NavLink>
-        </div>
+              <span className="ml-2">Profile</span>
+            </div>
+            {/* Dropdown */}
+            <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-md opacity-0 group-hover:opacity-100">
+              <NavLink
+                to="/dashboard"
+                className="block px-4 py-2 hover:bg-gray-200"
+              >
+                Dashboard
+              </NavLink>
+              <button
+                onClick={handleLogout}
+                className="block w-full text-left px-4 py-2 hover:bg-gray-200"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </>
       )}
-    </nav>
+    </div>
+  </div>
+</nav>
+
   );
 };
 
