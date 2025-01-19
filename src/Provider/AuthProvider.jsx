@@ -30,7 +30,7 @@ const AuthProvider = ({ children }) => {
             console.log('current user', currentUser);
             setLoading(false);
         });
-        // এখানে `unsubscribe` ফাংশনটি কল না করে সরাসরি রিটার্ন করুন।
+
         return () => unsubscribe();
     }, []);
 
@@ -40,6 +40,7 @@ const AuthProvider = ({ children }) => {
         createUser,
         signIn,
         logOut,
+        setUser
     };
 
     return (
