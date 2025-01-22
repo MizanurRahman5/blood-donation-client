@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import logo from '../assets/14052021-06_generated-removebg-preview.png';
 import { AuthContex } from '../Provider/AuthProvider';
@@ -6,7 +6,51 @@ import { AuthContex } from '../Provider/AuthProvider';
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContex); // AuthContext থেকে user এবং logOut ফাংশন
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  console.log(user)
+  const [profileData, setProfileData] = useState({
+    name: '',
+    email: '',
+    avatar: '',
+    district: '',
+    upazila: '',
+    bloodGroup: '',
+    role: 'user', // Default role
+  });
+
+  console.log(profileData.role)
+
+  // Fetch user data
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!user?.email) {
+        console.error('No email found for the user.');
+        return;
+      }
+
+      try {
+        // API call with email to get data for the logged-in user
+        const response = await fetch(`http://localhost:3000/user?email=${user.email}`);
+        const data = await response.json();
+
+        if (response.ok) {
+          setProfileData({
+            name: data.name,
+            email: data.email,
+            avatar: data.avatar,
+            district: data.district,
+            upazila: data.upazila,
+            bloodGroup: data.bloodGroup,
+            role: data.role || 'user', // Default role is 'user' if not provided
+          });
+        } else {
+          console.error('Failed to fetch user data:', data);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchUserData();
+  }, [user]);
 
   const handleLogout = () => {
     logOut()
@@ -78,16 +122,16 @@ const Navbar = () => {
               <div className="relative group">
                 <div className="cursor-pointer flex items-center">
                   <img
-                    src={user.avatar || 'https://via.placeholder.com/32'}
+                    src={profileData.avatar || 'https://via.placeholder.com/32'}
                     alt="User Avatar"
                     className="w-8 h-8 rounded-full"
                   />
-                  <span className="ml-2">{user.displayName || 'Profile'}</span>
+                  <span className="ml-2">{profileData.name || 'Profile'}</span>
                 </div>
                 {/* Dropdown */}
                 <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-md opacity-0 group-hover:opacity-100">
                   <NavLink
-                    to="/dashboard"
+                    to={profileData.role === 'admin' ? '/admin-dashboard' : '/dashboard'}
                     className="block px-4 py-2 hover:bg-gray-200"
                   >
                     Dashboard

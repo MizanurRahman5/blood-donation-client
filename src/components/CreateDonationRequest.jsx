@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContex } from "../Provider/AuthProvider"; // Assuming AuthContext is providing user data
 
@@ -15,10 +15,48 @@ const CreateDonationRequest = () => {
     donationTime: "",
     requestMessage: "",
   });
+  const [profileData, setProfileData] = useState({
+      name: '',
+      email: '',
+      avatar: '',
+      district: '',
+      upazila: '',
+      bloodGroup: '',
+    });
   const navigate = useNavigate();
 
   // Check if user is blocked
   const isBlocked = user?.status === "blocked";
+
+
+  useEffect(() => {
+      const fetchUserData = async () => {
+        if (!user?.email) {
+          console.error('No email found for the user.');
+          return;
+        }
+  
+        try {
+          // API call with email to get data for the logged-in user only
+          const response = await fetch(`http://localhost:3000/user?email=${user.email}`);
+          const data = await response.json();
+  
+          if (response.ok) {
+            setProfileData(data); // Set profile data if successful
+          } else {
+            console.error('Failed to fetch user data:', data);
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+  
+      fetchUserData(); // Fetch user data if email exists
+    }, [user]); // Dependency array, will run whenever `user` changes
+
+
+
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -36,8 +74,8 @@ const CreateDonationRequest = () => {
 
     // Collect data from formData
     const donationRequest = {
-      requesterName: user?.name || "Unknown User", // Logged-in user's name
-      requesterEmail: user?.email || "unknown@example.com", // Logged-in user's email
+      requesterName: profileData?.name || "Unknown User", // Logged-in user's name
+      requesterEmail: profileData?.email || "unknown@example.com", // Logged-in user's email
       recipientName: formData.recipientName,
       recipientDistrict: formData.recipientDistrict,
       recipientUpazila: formData.recipientUpazila,
@@ -87,7 +125,7 @@ const CreateDonationRequest = () => {
           <label className="block text-gray-700">Requester Name</label>
           <input
             type="text"
-            value={user?.name || ""}
+            value={profileData?.name || ""}
             readOnly
             className="w-full px-4 py-2 border rounded"
           />
@@ -96,7 +134,7 @@ const CreateDonationRequest = () => {
           <label className="block text-gray-700">Requester Email</label>
           <input
             type="email"
-            value={user?.email || ""}
+            value={profileData?.email || ""}
             readOnly
             className="w-full px-4 py-2 border rounded"
           />
