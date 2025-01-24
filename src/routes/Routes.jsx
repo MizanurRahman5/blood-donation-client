@@ -16,6 +16,10 @@ import AllUsers from "../components/AllUser";
 import AllDonationRequest from "../components/AllDonationRequest";
 import ContentManagementPage from "../components/ContentManagementPage";
 import AddBlog from "../components/AddBlog";
+import PendingDonationRequests from "../components/PendingDonationRequest";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import DonationRequestDetails from "../Pages/DonationRequestDetails/DonationRequestDetails";
+import SearchPage from "../Pages/SearchPage/SearchPage";
 
 
 export const router = createBrowserRouter([
@@ -34,8 +38,24 @@ export const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />
+      },
+      {
+        path: "donation-requests",
+        element: <PendingDonationRequests />
+      },
+      {
+        path: "donation-requests/:id",
+        element: (
+          <PrivateRoute>
+            <DonationRequestDetails />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path:'search',
+        element:<SearchPage/>
       }
-    ]
+    ],
   },
   {
     path: "dashboard",
@@ -43,32 +63,82 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <DashboardHome />
+        element: (
+          <PrivateRoute>
+            <DashboardHome />
+          </PrivateRoute>
+        ),
       },
       {
         path: "profile",
-        element: <Profile />
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
       },
       {
         path: "create-donation-request",
-        element: <CreateDonationRequest />
+        element: (
+          <PrivateRoute>
+            <CreateDonationRequest />
+          </PrivateRoute>
+        ),
       },
       {
         path: "my-donation-requests",
-        element: <MyDonationRequests />
-      }
-    ]
+        element: (
+          <PrivateRoute>
+            <MyDonationRequests />
+          </PrivateRoute>
+        ),
+      },
+    ],
   },
   {
     path: "admin-dashboard",
     element: <AdminDashboardLayout />,
     children: [
-      { path: "", element: <AdminDashboardHome /> },
-      { path: "all-users", element: <AllUsers /> },
-      { path: "all-blood-donation-requests", element: <AllDonationRequest /> },
-      { path: "content-management", element: <ContentManagementPage /> },
-      { path: "add-blog", element: <AddBlog /> },  
+      { 
+        path: "", 
+        element: (
+          <PrivateRoute adminOnly>
+            <AdminDashboardHome />
+          </PrivateRoute>
+        ), 
+      },
+      { 
+        path: "all-users", 
+        element: (
+          <PrivateRoute adminOnly>
+            <AllUsers />
+          </PrivateRoute>
+        ), 
+      },
+      { 
+        path: "all-blood-donation-requests", 
+        element: (
+          <PrivateRoute adminOnly>
+            <AllDonationRequest />
+          </PrivateRoute>
+        ), 
+      },
+      { 
+        path: "content-management", 
+        element: (
+          <PrivateRoute adminOnly>
+            <ContentManagementPage />
+          </PrivateRoute>
+        ), 
+      },
+      { 
+        path: "add-blog", 
+        element: (
+          <PrivateRoute adminOnly>
+            <AddBlog />
+          </PrivateRoute>
+        ), 
+      },
     ],
   },
-  
 ]);
