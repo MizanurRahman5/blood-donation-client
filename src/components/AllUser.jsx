@@ -4,7 +4,7 @@ const AllUsers = () => {
   const [users, setUsers] = useState([]);
   const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 5;
+  const usersPerPage = 5; 
 
   useEffect(() => {
     // Fetch users data
@@ -25,6 +25,26 @@ const AllUsers = () => {
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const handleStatusChange = async (userId, currentStatus) => {
+    const newStatus = currentStatus === "active" ? "blocked" : "active";
+
+    // Update status locally
+    setUsers((prevUsers) =>
+      prevUsers.map((user) =>
+        user._id === userId ? { ...user, status: newStatus } : user
+      )
+    );
+
+    // Send update request to server
+    await fetch(`http://localhost:3000/users/${userId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status: newStatus }),
+    });
+  };
 
   return (
     <div>
@@ -50,7 +70,7 @@ const AllUsers = () => {
         </thead>
         <tbody>
           {currentUsers.map((user) => (
-            <tr key={user.id}>
+            <tr key={user._id}>
               <td className="border p-2">
                 <img src={user.avatar} alt="avatar" className="w-8 h-8" />
               </td>
@@ -58,15 +78,16 @@ const AllUsers = () => {
               <td className="border p-2">{user.email}</td>
               <td className="border p-2">{user.status}</td>
               <td className="border p-2">
-                {user.status === "active" ? (
-                  <button className="bg-red-500 text-white px-2 py-1 rounded">
-                    Block
-                  </button>
-                ) : (
-                  <button className="bg-green-500 text-white px-2 py-1 rounded">
-                    Unblock
-                  </button>
-                )}
+                <button
+                  onClick={() => handleStatusChange(user._id, user.status)}
+                  className={`px-2 py-1 rounded ${
+                    user.status === "active"
+                      ? "bg-red-500 text-white"
+                      : "bg-green-500 text-white"
+                  }`}
+                >
+                  {user.status === "active" ? "Block" : "Unblock"}
+                </button>
               </td>
             </tr>
           ))}
