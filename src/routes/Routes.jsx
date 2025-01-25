@@ -21,6 +21,7 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import DonationRequestDetails from "../Pages/DonationRequestDetails/DonationRequestDetails";
 import SearchPage from "../Pages/SearchPage/SearchPage";
 import EditDonationRequestForm from "../components/EditDonationRequestForm";
+import VolunteerDashboardLayout from "../Layout/VolunteerDashboardLayout";
 
 
 
@@ -159,4 +160,8 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path:'volunteer-dashboard',
+    element:<VolunteerDashboardLayout/>
+  }
 ]);
