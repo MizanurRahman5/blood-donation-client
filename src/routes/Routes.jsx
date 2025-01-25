@@ -20,6 +20,8 @@ import PendingDonationRequests from "../components/PendingDonationRequest";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import DonationRequestDetails from "../Pages/DonationRequestDetails/DonationRequestDetails";
 import SearchPage from "../Pages/SearchPage/SearchPage";
+import EditDonationRequestForm from "../components/EditDonationRequestForm";
+
 
 
 export const router = createBrowserRouter([
@@ -93,6 +95,14 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "edit-donation-request/:id", // Edit route
+        element: (
+          <PrivateRoute>
+            <EditDonationRequestForm />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
   {
@@ -138,6 +148,14 @@ export const router = createBrowserRouter([
             <AddBlog />
           </PrivateRoute>
         ), 
+      },
+      {
+        path: "edit-donation-request/:id", // Edit route
+        element: (
+          <PrivateRoute>
+            <EditDonationRequestForm />
+          </PrivateRoute>
+        ),
       },
     ],
   },

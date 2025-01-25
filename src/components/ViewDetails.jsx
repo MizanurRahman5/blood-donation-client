@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { AuthContex } from '../../Provider/AuthProvider';
+import { AuthContex } from '../Provider/AuthProvider';
 
-const DonationRequestDetails = () => {
+
+const ViewDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams(); // Corrected from `_id` to `id`
   const { user } = useContext(AuthContex);
   const [requestDetails, setRequestDetails] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-console.log(user)
+
+  // Fetch request details
   useEffect(() => {
     const fetchDetails = async () => {
       try {
@@ -22,12 +24,13 @@ console.log(user)
     fetchDetails();
   }, [id]);
 
+  // Handle confirm donation
   const handleConfirmDonation = async () => {
     try {
       await axios.put(`http://localhost:3000/donation-requests/${id}`, {
         status: 'inprogress',
-        donorName: user?.name || 'Guest User',  // Donor name
-        donorEmail: user?.email || 'guest@example.com',  // Donor email
+        donorName: user?.name || 'Guest User',
+        donorEmail: user?.email || 'guest@example.com',
       });
       alert('Donation confirmed successfully!');
       setIsModalOpen(false);
@@ -36,7 +39,6 @@ console.log(user)
       console.error('Error confirming donation:', error);
     }
   };
-  
 
   if (!requestDetails) return <div>Loading...</div>;
 
@@ -47,7 +49,7 @@ console.log(user)
         <p><strong>Recipient Name:</strong> {requestDetails.recipientName}</p>
         <p><strong>Blood Group:</strong> {requestDetails.bloodGroup}</p>
         <p><strong>Location:</strong> {requestDetails.location}</p>
-        <p><strong>Date & Time:</strong> {requestDetails.date} at {requestDetails.time}</p>
+        <p><strong>Date & Time:</strong> {requestDetails.donationDate} at {requestDetails.donationTime}</p>
         <p><strong>Message:</strong> {requestDetails.message}</p>
       </div>
       <button
@@ -57,6 +59,7 @@ console.log(user)
         Donate
       </button>
 
+      {/* Modal for donation confirmation */}
       {isModalOpen && (
         <div
           className="fixed inset-0 bg-gray-700 bg-opacity-50 flex justify-center items-center"
@@ -99,4 +102,4 @@ console.log(user)
   );
 };
 
-export default DonationRequestDetails;
+export default ViewDetails;

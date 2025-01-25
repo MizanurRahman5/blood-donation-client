@@ -1,132 +1,164 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AuthContex } from "../Provider/AuthProvider";
+import React, { useEffect, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContex } from '../Provider/AuthProvider';
 
 const MyDonationRequests = () => {
-  const { user } = useContext(AuthContex);
-  console.log(user);
-
+  const { user } = useContext(AuthContex); // Get user data from AuthContext
   const [donationRequests, setDonationRequests] = useState([]);
-  const [filteredRequests, setFilteredRequests] = useState([]);
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [currentPage, setCurrentPage] = useState(1);
-  const requestsPerPage = 5; // Pagination: Number of requests per page
-
-  // Fetch data
+  const [showRequests, setShowRequests] = useState(false);
+  const navigate = useNavigate();
+  
+  // Fetch donation requests
   useEffect(() => {
-    if (!user || !user.email) {
-      console.log("No user logged in");
-      return; // If no user is logged in, exit the function
-    }
+    if (!user || !user.email) return; // If user or user.email is not available, stop execution
 
     const fetchDonationRequests = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3000/donation-requests?email=${user.email}` // Use user's email dynamically
-        );
+        const response = await fetch(`http://localhost:3000/donation-requests?email=${user.email}`);
         const data = await response.json();
-        setDonationRequests(data);
-        setFilteredRequests(data);
+
+        if (response.ok) {
+          setDonationRequests(data); // Set donation requests
+          setShowRequests(data.length > 0); // Show requests section if there are any
+        } else {
+          console.error('Failed to fetch donation requests:', data);
+        }
       } catch (error) {
-        console.error("Error fetching donation requests:", error);
+        console.error('Error fetching donation requests:', error);
       }
     };
 
     fetchDonationRequests();
-  }, [user]); // Add 'user' as a dependency
+  }, [user]);
 
-  // Handle Filter Change
-  const handleFilterChange = (e) => {
-    const selectedStatus = e.target.value;
-    setStatusFilter(selectedStatus);
+  // Handle delete action
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/donation-requests/${id}`, {
+        method: 'DELETE',
+      });
 
-    if (selectedStatus === "all") {
-      setFilteredRequests(donationRequests);
-    } else {
-      const filtered = donationRequests.filter(
-        (request) => request.status === selectedStatus
-      );
-      setFilteredRequests(filtered);
+      if (response.ok) {
+        // Remove the deleted request from the state
+        setDonationRequests(donationRequests.filter((request) => request._id !== id));
+        alert('Donation request deleted successfully');
+      } else {
+        console.error('Failed to delete donation request');
+      }
+    } catch (error) {
+      console.error('Error deleting donation request:', error);
     }
-
-    setCurrentPage(1); // Reset to first page
   };
 
-  // Pagination Logic
-  const indexOfLastRequest = currentPage * requestsPerPage;
-  const indexOfFirstRequest = indexOfLastRequest - requestsPerPage;
-  const currentRequests = filteredRequests.slice(
-    indexOfFirstRequest,
-    indexOfLastRequest
-  );
+  // Handle updating donation status
+  const handleStatusChange = async (id, status) => {
+    try {
+      const response = await fetch(`http://localhost:3000/donation-requests/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      });
 
-  const totalPages = Math.ceil(filteredRequests.length / requestsPerPage);
-
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
+      if (response.ok) {
+        // Update the donation request status in the state
+        const updatedRequests = donationRequests.map((request) =>
+          request._id === id ? { ...request, status } : request
+        );
+        setDonationRequests(updatedRequests);
+      } else {
+        console.error('Failed to update donation request status');
+      }
+    } catch (error) {
+      console.error('Error updating donation request status:', error);
+    }
   };
+
+  if (!user) {
+    return <div className="text-center mt-12 text-xl">Loading...</div>;
+  }
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-semibold mb-6">My Donation Requests</h1>
-
-      {/* Filter Section */}
-      <div className="mb-4">
-        <label className="mr-2 text-gray-700 font-medium">Filter by Status:</label>
-        <select
-          value={statusFilter}
-          onChange={handleFilterChange}
-          className="px-4 py-2 border rounded"
-        >
-          <option value="all">All</option>
-          <option value="pending">Pending</option>
-          <option value="inprogress">In Progress</option>
-          <option value="done">Done</option>
-          <option value="canceled">Canceled</option>
-        </select>
+      {/* Welcome Message */}
+      <div className="mb-8 text-center">
+        <h1 className="text-3xl font-semibold text-gray-800">Welcome, {user.name || 'Donor'}</h1>
       </div>
 
-      {/* Donation Requests Table */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200">
-          <thead>
-            <tr>
-              <th className="px-6 py-3 border-b">Recipient Name</th>
-              <th className="px-6 py-3 border-b">District</th>
-              <th className="px-6 py-3 border-b">Blood Group</th>
-              <th className="px-6 py-3 border-b">Date</th>
-              <th className="px-6 py-3 border-b">Time</th>
-              <th className="px-6 py-3 border-b">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentRequests.map((request, index) => (
-              <tr key={index}>
-                <td className="px-6 py-3 border-b">{request.recipientName}</td>
-                <td className="px-6 py-3 border-b">{request.recipientDistrict}</td>
-                <td className="px-6 py-3 border-b">{request.bloodGroup}</td>
-                <td className="px-6 py-3 border-b">{request.donationDate}</td>
-                <td className="px-6 py-3 border-b">{request.donationTime}</td>
-                <td className="px-6 py-3 border-b">{request.status}</td>
+      {/* Display message if no donation requests are made */}
+      {!showRequests && (
+        <div className="bg-white shadow-md rounded-lg mb-8 p-6 text-center">
+          <p className="text-xl text-gray-600">You haven't made any donation requests yet.</p>
+        </div>
+      )}
+
+      {/* Recent Donation Requests Section */}
+      {showRequests && (
+        <div className="bg-white shadow-md rounded-lg mb-8 p-6">
+          <h2 className="text-xl font-semibold mb-6">All Donation Requests</h2>
+          <table className="min-w-full table-auto">
+            <thead>
+              <tr>
+                <th className="px-6 py-3 text-left text-sm text-gray-700">Recipient Name</th>
+                <th className="px-6 py-3 text-left text-sm text-gray-700">Location</th>
+                <th className="px-6 py-3 text-left text-sm text-gray-700">Donation Date</th>
+                <th className="px-6 py-3 text-left text-sm text-gray-700">Blood Group</th>
+                <th className="px-6 py-3 text-left text-sm text-gray-700">Status</th>
+                <th className="px-6 py-3 text-left text-sm text-gray-700">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {donationRequests.map((request) => (
+                <tr key={request._id} className="border-t">
+                  <td className="px-6 py-4">{request.recipientName}</td>
+                  <td className="px-6 py-4">
+                    {request.recipientDistrict
+                      ? `${request.recipientDistrict}, ${request.recipientUpazila}`
+                      : 'Location not available'}
+                  </td>
+                  <td className="px-6 py-4">{request.donationDate}</td>
+                  <td className="px-6 py-4">{request.bloodGroup}</td>
+                  <td className="px-6 py-4">{request.status}</td>
+                  <td className="px-6 py-4 space-x-3">
+                    {/* Show Done and Cancel buttons only if status is 'inprogress' */}
+                    {request.status === 'inprogress' && (
+                      <>
+                        <button
+                          onClick={() => handleStatusChange(request._id, 'done')}
+                          className="bg-green-500 text-white px-4 py-2 rounded"
+                        >
+                          Done
+                        </button>
+                        <button
+                          onClick={() => handleStatusChange(request._id, 'canceled')}
+                          className="bg-red-500 text-white px-4 py-2 rounded"
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    )}
 
-      {/* Pagination */}
-      <div className="mt-4 flex justify-center space-x-2">
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index}
-            onClick={() => paginate(index + 1)}
-            className={`px-4 py-2 border rounded ${
-              currentPage === index + 1 ? "bg-blue-500 text-white" : "bg-white"
-            }`}
-          >
-            {index + 1}
-          </button>
-        ))}
-      </div>
+                    {/* Edit button */}
+                    <button
+                      onClick={() => navigate(`/dashboard/edit-donation-request/${request._id}`)}
+                      className="bg-blue-500 text-white px-4 py-2 rounded"
+                    >
+                      Edit
+                    </button>
+
+                    {/* Delete button */}
+                    <button
+                      onClick={() => handleDelete(request._id)} // Trigger delete function
+                      className="bg-gray-500 text-white px-4 py-2 rounded"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };

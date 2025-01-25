@@ -82,33 +82,6 @@ const Sidebar = () => {
             </NavLink>
           </li>
 
-          {/* All Users */}
-          <li>
-            <NavLink
-              to="/dashboard/all-users"
-              className={({ isActive }) =>
-                isActive
-                  ? 'bg-red-700 p-3 rounded-md shadow-lg block'
-                  : 'hover:bg-red-500 p-3 rounded-md block transition duration-300'
-              }
-            >
-              All Users
-            </NavLink>
-          </li>
-
-          {/* Content Management */}
-          <li>
-            <NavLink
-              to="/dashboard/content-management"
-              className={({ isActive }) =>
-                isActive
-                  ? 'bg-red-700 p-3 rounded-md shadow-lg block'
-                  : 'hover:bg-red-500 p-3 rounded-md block transition duration-300'
-              }
-            >
-              Content Management
-            </NavLink>
-          </li>
         </ul>
       </nav>
     </div>
