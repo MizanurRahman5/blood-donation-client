@@ -13,18 +13,18 @@ const PendingDonationRequests = () => {
   }, []);
 
   return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Pending Donation Requests</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="max-w-6xl min-h-[500px] mx-auto p-6">
+      <h2 className="text-3xl font-semibold text-white text-center mb-6">Pending Donation Requests</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         {requests.map((request) => (
-          <div key={request._id} className="bg-white shadow-md rounded-lg p-4">
-            <h3 className="text-xl font-bold">{request.recipientName}</h3>
-            <p>Location: {request.recipientDistrict}, {request.recipientUpazila}</p>
-            <p>Blood Group: {request.bloodGroup}</p>
-            <p>Date: {request.donationDate}</p>
-            <p>Time: {request.donationTime}</p>
+          <div key={request._id} className="bg-white shadow-lg rounded-xl p-6 transition-transform transform hover:scale-105 hover:shadow-2xl">
+            <h3 className="text-2xl font-bold text-red-600">{request.recipientName}</h3>
+            <p className="text-lg text-gray-700 mt-2"><strong>Location:</strong> {request.recipientDistrict}, {request.recipientUpazila}</p>
+            <p className="text-lg text-gray-700"><strong>Blood Group:</strong> {request.bloodGroup}</p>
+            <p className="text-lg text-gray-700"><strong>Date:</strong> {request.donationDate}</p>
+            <p className="text-lg text-gray-700"><strong>Time:</strong> {request.donationTime}</p>
             <button
-              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              className="mt-4 w-full py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300"
               onClick={() => navigate(`/donation-requests/${request._id}`)}
             >
               View Details

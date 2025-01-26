@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContex } from '../Provider/AuthProvider';
 
-const AllDonationRequest = () => {
+const VolunteerAllDonationRequestPage = () => {
   const { user } = useContext(AuthContex); // Get user data from AuthContext
   const [donationRequests, setDonationRequests] = useState([]);
   const [showRequests, setShowRequests] = useState(false);
@@ -30,25 +30,6 @@ const AllDonationRequest = () => {
 
     fetchDonationRequests();
   }, [user]);
-
-  // Handle delete action
-  const handleDelete = async (id) => {
-    try {
-      const response = await fetch(`http://localhost:3000/donation-requests/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        // Remove the deleted request from the state
-        setDonationRequests(donationRequests.filter((request) => request._id !== id));
-        alert('Donation request deleted successfully');
-      } else {
-        console.error('Failed to delete donation request');
-      }
-    } catch (error) {
-      console.error('Error deleting donation request:', error);
-    }
-  };
 
   // Handle updating donation status
   const handleStatusChange = async (id, status) => {
@@ -81,7 +62,7 @@ const AllDonationRequest = () => {
     <div className="container mx-auto p-6">
       {/* Welcome Message */}
       <div className="mb-8 text-center">
-        <h1 className="text-3xl font-semibold text-gray-800">Welcome, {user.name || 'Admin'}</h1>
+        <h1 className="text-3xl font-semibold text-gray-800">Welcome, {user.name || 'Volunteer'}</h1>
       </div>
 
       {/* Display message if no donation requests are made */}
@@ -136,22 +117,6 @@ const AllDonationRequest = () => {
                         </button>
                       </>
                     )}
-
-                    {/* Edit button */}
-                    <button
-                      onClick={() => navigate(`/dashboard/edit-donation-request/${request._id}`)}
-                      className="bg-blue-500 text-white px-4 py-2 rounded"
-                    >
-                      Edit
-                    </button>
-
-                    {/* Delete button */}
-                    <button
-                      onClick={() => handleDelete(request._id)} // Trigger delete function
-                      className="bg-gray-500 text-white px-4 py-2 rounded"
-                    >
-                      Delete
-                    </button>
                   </td>
                 </tr>
               ))}
@@ -163,4 +128,4 @@ const AllDonationRequest = () => {
   );
 };
 
-export default AllDonationRequest;
+export default VolunteerAllDonationRequestPage;

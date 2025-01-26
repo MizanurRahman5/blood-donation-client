@@ -28,19 +28,7 @@ const VolunteerDashboardLayout = () => {
               </NavLink>
             </li>
 
-            {/* All Users Menu */}
-            <li>
-              <NavLink
-                to="/Volunteer-dashboard/all-users"
-                className={({ isActive }) =>
-                  isActive
-                    ? "bg-red-700 p-3 rounded-md shadow-lg block"
-                    : "hover:bg-red-500 p-3 rounded-md block transition duration-300"
-                }
-              >
-                All Users
-              </NavLink>
-            </li>
+            
 
             {/* Blood Donation Requests */}
             <li>

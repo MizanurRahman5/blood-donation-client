@@ -22,6 +22,13 @@ import DonationRequestDetails from "../Pages/DonationRequestDetails/DonationRequ
 import SearchPage from "../Pages/SearchPage/SearchPage";
 import EditDonationRequestForm from "../components/EditDonationRequestForm";
 import VolunteerDashboardLayout from "../Layout/VolunteerDashboardLayout";
+import Blogs from "../Pages/Blogs/Blogs";
+import BlogDetailPage from "../Pages/BlogsDetails/BlogsDetailsPages";
+import FundingPage from "../Pages/Funding/Funding";
+import VolunteerDashboardHome from "../components/VolunteerDashboardHome";
+import VolunteerAllUser from "../components/VolunteerAllUser";
+import VolunteerAllDonationRequestPage from "../components/VolunteerAllDonationRequestPage"
+
 
 
 
@@ -57,6 +64,18 @@ export const router = createBrowserRouter([
       {
         path:'search',
         element:<SearchPage/>
+      },
+      {
+        path:'blog',
+        element:<Blogs/>
+      },
+      {
+        path:'blog/:id',
+        element:<PrivateRoute><BlogDetailPage/></PrivateRoute>
+      },
+      {
+        path:'funding',
+        element:<FundingPage/>
       }
     ],
   },
@@ -162,6 +181,19 @@ export const router = createBrowserRouter([
   },
   {
     path:'volunteer-dashboard',
-    element:<VolunteerDashboardLayout/>
+    element:<VolunteerDashboardLayout/>,
+    children:[
+      {
+        path:'',
+        element:<PrivateRoute><VolunteerDashboardHome/></PrivateRoute>
+      },
+      
+      {
+        path:'all-blood-donation-requests',
+        element:<PrivateRoute>
+          <VolunteerAllDonationRequestPage/>
+        </PrivateRoute>
+      }
+    ]
   }
 ]);

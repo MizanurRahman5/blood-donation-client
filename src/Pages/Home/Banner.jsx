@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const Banner = () => {
+  const navigate = useNavigate();
   return (
     <div className="bg-red-100 min-h-screen">
       {/* Banner Section */}
@@ -12,9 +15,19 @@ const Banner = () => {
             Rokto is a real-time free platform to help blood searchers connect voluntary blood donors around Bangladesh.
           </p>
           <div className="space-x-4">
-            <button className="bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded-lg shadow-lg">Join as a Donor</button>
-            <button className="bg-white hover:bg-gray-200 text-red-600 py-2 px-6 rounded-lg shadow-lg">Search Donors</button>
-          </div>
+      <button
+        className="bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded-lg shadow-lg"
+        onClick={() => navigate('/login')} // Redirect to login page
+      >
+        Join as a Donor
+      </button>
+      <button
+        className="bg-white hover:bg-gray-200 text-red-600 py-2 px-6 rounded-lg shadow-lg"
+        onClick={() => navigate('/search')} // Redirect to search donors page
+      >
+        Search Donors
+      </button>
+    </div>
         </div>
       </div>
 
