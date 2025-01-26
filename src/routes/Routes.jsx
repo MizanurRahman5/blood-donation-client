@@ -29,6 +29,7 @@ import VolunteerDashboardHome from "../components/VolunteerDashboardHome";
 import VolunteerAllUser from "../components/VolunteerAllUser";
 import VolunteerAllDonationRequestPage from "../components/VolunteerAllDonationRequestPage"
 import VolunteerContentManage from "../components/VolunteerContentManage";
+import DonorDetails from "../components/DonorDetails";
 
 
 
@@ -124,6 +125,10 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path:'donation-request/:id',
+        element:<DonorDetails/>
+      }
     ],
   },
   {
