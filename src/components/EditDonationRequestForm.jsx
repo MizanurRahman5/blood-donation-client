@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2'; // SweetAlert2 ইনপোর্ট করো
 
 const EditDonationRequestForm = () => {
   const [donationRequest, setDonationRequest] = useState({
@@ -58,7 +59,11 @@ const EditDonationRequestForm = () => {
       console.log(data);  // Log the response to see if it contains updated data
   
       if (response.ok) {
-        alert('Donation Request updated successfully');
+        Swal.fire({
+          icon: 'success',
+          title: 'Donation Request Updated',
+          text: 'The donation request has been updated successfully.',
+        });
         navigate('/dashboard'); // Redirect to dashboard after successful update
       } else {
         console.error('Failed to update donation request');
@@ -76,7 +81,11 @@ const EditDonationRequestForm = () => {
       });
   
       if (response.ok) {
-        alert('Donation Request deleted successfully');
+        Swal.fire({
+          icon: 'success',
+          title: 'Donation Request Deleted',
+          text: 'The donation request has been deleted successfully.',
+        });
         navigate('/dashboard'); // Redirect to dashboard after successful delete
       } else {
         console.error('Failed to delete donation request');

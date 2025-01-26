@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useNavigate } from "react-router-dom";
 import { AuthContex } from "../../Provider/AuthProvider";
-
+import Swal from "sweetalert2"; // SweetAlert ইমপোর্ট করা হলো
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,6 +17,15 @@ const Login = () => {
   useEffect(() => {
     if (user) {
       navigate("/");
+
+      // SweetAlert সফল লগইনের পর দেখানোর জন্য
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful!",
+        text: "Welcome back to the platform.",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     }
   }, [user, navigate]);
 
@@ -27,24 +36,22 @@ const Login = () => {
       .then(() => {
         // লগইন সফল হলে user ড্যাশবোর্ডে রিডাইরেক্ট হবে
         navigate("/");
+
+        // SweetAlert দেখানো হবে
+        Swal.fire({
+          icon: "success",
+          title: "Login Successful!",
+          text: "Welcome back to the platform.",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       })
       .catch((err) => {
         setError(err.message.replace("Firebase:", "").trim());
       });
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <DotLottieReact
-          src="https://lottie.host/5e97a5ad-02a6-4db2-91ae-8d39f80e8b3c/I5Iq7EQ4QP.lottie"
-          loop
-          autoplay
-        />
-        <p className="text-gray-600 mt-4">Loading, please wait...</p>
-      </div>
-    );
-  }
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">

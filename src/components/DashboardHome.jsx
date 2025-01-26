@@ -92,72 +92,73 @@ const DashboardHome = () => {
 
       {/* Recent Donation Requests Section */}
       {showRequests && (
-        <div className="bg-white shadow-md rounded-lg mb-8 p-6">
-          <h2 className="text-xl font-semibold mb-6">Recent Donation Requests</h2>
-          <table className="min-w-full table-auto">
-            <thead>
-              <tr>
-                <th className="px-6 py-3 text-left text-sm text-gray-700">Recipient Name</th>
-                <th className="px-6 py-3 text-left text-sm text-gray-700">Location</th>
-                <th className="px-6 py-3 text-left text-sm text-gray-700">Donation Date</th>
-                <th className="px-6 py-3 text-left text-sm text-gray-700">Blood Group</th>
-                <th className="px-6 py-3 text-left text-sm text-gray-700">Status</th>
-                <th className="px-6 py-3 text-left text-sm text-gray-700">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {donationRequests.map((request) => (
-                <tr key={request._id} className="border-t">
-                  <td className="px-6 py-4">{request.recipientName}</td>
-                  <td className="px-6 py-4">
-                    {request.recipientDistrict
-                      ? `${request.recipientDistrict}, ${request.recipientUpazila}`
-                      : 'Location not available'}
-                  </td>
-                  <td className="px-6 py-4">{request.donationDate}</td>
-                  <td className="px-6 py-4">{request.bloodGroup}</td>
-                  <td className="px-6 py-4">{request.status}</td>
-                  <td className="px-6 py-4 space-x-3">
-                    {/* Show Done and Cancel buttons only if status is 'inprogress' */}
-                    {request.status === 'inprogress' && (
-                      <>
-                        <button
-                          onClick={() => handleStatusChange(request._id, 'done')}
-                          className="bg-green-500 text-white px-4 py-2 rounded"
-                        >
-                          Done
-                        </button>
-                        <button
-                          onClick={() => handleStatusChange(request._id, 'canceled')}
-                          className="bg-red-500 text-white px-4 py-2 rounded"
-                        >
-                          Cancel
-                        </button>
-                      </>
-                    )}
+  <div className="bg-white shadow-md rounded-lg mb-8 p-6">
+    <h2 className="text-xl font-semibold mb-6">Recent Donation Requests</h2>
+    <table className="min-w-full table-auto">
+      <thead>
+        <tr>
+          <th className="px-6 py-3 text-left text-sm text-gray-700">Recipient Name</th>
+          <th className="px-6 py-3 text-left text-sm text-gray-700">Location</th>
+          <th className="px-6 py-3 text-left text-sm text-gray-700">Donation Date</th>
+          <th className="px-6 py-3 text-left text-sm text-gray-700">Blood Group</th>
+          <th className="px-6 py-3 text-left text-sm text-gray-700">Status</th>
+          <th className="px-6 py-3 text-left text-sm text-gray-700">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {donationRequests.slice(0, 3).map((request) => ( // Show only the first 3 requests
+          <tr key={request._id} className="border-t">
+            <td className="px-6 py-4">{request.recipientName}</td>
+            <td className="px-6 py-4">
+              {request.recipientDistrict
+                ? `${request.recipientDistrict}, ${request.recipientUpazila}`
+                : 'Location not available'}
+            </td>
+            <td className="px-6 py-4">{request.donationDate}</td>
+            <td className="px-6 py-4">{request.bloodGroup}</td>
+            <td className="px-6 py-4">{request.status}</td>
+            <td className="px-6 py-4 space-x-3">
+              {/* Show Done and Cancel buttons only if status is 'inprogress' */}
+              {request.status === 'inprogress' && (
+                <>
+                  <button
+                    onClick={() => handleStatusChange(request._id, 'done')}
+                    className="bg-green-500 text-white px-4 py-2 rounded"
+                  >
+                    Done
+                  </button>
+                  <button
+                    onClick={() => handleStatusChange(request._id, 'canceled')}
+                    className="bg-red-500 text-white px-4 py-2 rounded"
+                  >
+                    Cancel
+                  </button>
+                </>
+              )}
 
-                    {/* Edit button */}
-                    <button
-                      onClick={() => navigate(`/dashboard/edit-donation-request/${request._id}`)}
-                      className="bg-blue-500 text-white px-4 py-2 rounded"
-                    >
-                      Edit
-                    </button>
+              {/* Edit button */}
+              <button
+                onClick={() => navigate(`/dashboard/edit-donation-request/${request._id}`)}
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+              >
+                Edit
+              </button>
 
-                    {/* Delete button */}
-                    <button
-                      onClick={() => handleDelete(request._id)} // Trigger delete function
-                      className="bg-gray-500 text-white px-4 py-2 rounded"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+              {/* Delete button */}
+              <button
+                onClick={() => handleDelete(request._id)} // Trigger delete function
+                className="bg-gray-500 text-white px-4 py-2 rounded"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+)}
+
 
       {/* Button to View All Donation Requests */}
       <div className="text-center mt-6">

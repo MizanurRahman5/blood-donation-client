@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { AuthContex } from '../Provider/AuthProvider';
+import Swal from 'sweetalert2';
 
 const ProfilePage = () => {
   const { user } = useContext(AuthContex); // Fetching user from AuthContext
@@ -57,11 +58,26 @@ const ProfilePage = () => {
       const data = await response.json();
       if (response.ok) {
         setIsEditing(false); // Disable editing mode after saving
+
+        // SweetAlert show after successful save
+        Swal.fire({
+          title: 'Profile Updated!',
+          text: 'Your profile information has been successfully updated.',
+          icon: 'success',
+          confirmButtonText: 'Okay'
+        });
       } else {
         console.error('Failed to save user data:', data);
       }
     } catch (error) {
       console.error('Error:', error);
+      // SweetAlert for error case
+      Swal.fire({
+        title: 'Error!',
+        text: 'There was an issue saving your profile. Please try again.',
+        icon: 'error',
+        confirmButtonText: 'Okay'
+      });
     }
   };
 
@@ -137,7 +153,7 @@ const ProfilePage = () => {
         </div>
         {isEditing && (
           <button
-            type="submit"  
+            type="submit"
             className="mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded"
           >
             Save
