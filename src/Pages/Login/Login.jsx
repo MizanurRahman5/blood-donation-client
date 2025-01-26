@@ -2,7 +2,8 @@ import React, { useState, useContext, useEffect } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useNavigate } from "react-router-dom";
 import { AuthContex } from "../../Provider/AuthProvider";
-import Swal from "sweetalert2"; // SweetAlert ইমপোর্ট করা হলো
+import Swal from "sweetalert2"; 
+import {Helmet} from "react-helmet";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,15 +11,14 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // AuthContext থেকে loading, signIn, এবং user আনছি
+  
   const { signIn, user, loading } = useContext(AuthContex);
 
-  // যদি user লগইন থাকে, তাহলে ড্যাশবোর্ডে রিডাইরেক্ট করুন
+  
   useEffect(() => {
     if (user) {
       navigate("/");
 
-      // SweetAlert সফল লগইনের পর দেখানোর জন্য
       Swal.fire({
         icon: "success",
         title: "Login Successful!",
@@ -34,10 +34,10 @@ const Login = () => {
 
     signIn(email, password)
       .then(() => {
-        // লগইন সফল হলে user ড্যাশবোর্ডে রিডাইরেক্ট হবে
+        
         navigate("/");
 
-        // SweetAlert দেখানো হবে
+        
         Swal.fire({
           icon: "success",
           title: "Login Successful!",
@@ -56,6 +56,10 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg flex flex-col lg:flex-row overflow-hidden">
+      <Helmet>
+                <meta charSet="utf-8" />
+                <title>Login - BloodDonate</title>
+            </Helmet>
         {/* Left Side: Animation */}
         <div className="lg:w-1/2 bg-red-50 flex flex-col justify-center items-center p-8">
           <h2 className="text-2xl font-bold text-red-500 mb-4">

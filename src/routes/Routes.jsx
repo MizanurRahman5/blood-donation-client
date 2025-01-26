@@ -183,6 +183,14 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path:'donation-request/:id',
+        element:<DonorDetails/>
+      },
+      {
+        path:'edit-donation-request/:id',
+        element:<EditDonationRequestForm/>
+      }
     ],
   },
   {

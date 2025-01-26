@@ -3,11 +3,12 @@ import axios from 'axios';
 import { AuthContex } from '../../Provider/AuthProvider';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {Helmet} from "react-helmet";
 
 const imag_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${imag_hosting_key}`;
 
-// জেলা এবং উপজেলা ডাটা
+
 const locationData = {
   Dhaka: ['Dhanmondi', 'Uttara', 'Gulshan', 'Mirpur'],
   Chittagong: ['Pahartali', 'Kotwali', 'Halishahar', 'Sitakunda'],
@@ -155,6 +156,10 @@ const Register = () => {
     <>
       <ToastContainer />
       <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded">
+      <Helmet>
+                <meta charSet="utf-8" />
+                <title>Register - BloodDonate</title>
+            </Helmet>
         <h1 className="text-2xl font-bold mb-4">Register</h1>
         <form onSubmit={handleFormSubmit} className="space-y-4">
           {/* Email */}

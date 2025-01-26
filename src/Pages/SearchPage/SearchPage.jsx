@@ -1,47 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import {Helmet} from "react-helmet";
 
 const locationData = {
-  Dhaka: ['Dhanmondi', 'Uttara', 'Gulshan', 'Mirpur'],
-  Chittagong: ['Pahartali', 'Kotwali', 'Halishahar', 'Sitakunda'],
-  Sylhet: ['Sylhet Sadar', 'Beanibazar', 'Golapganj'],
-  Rajshahi: ['Rajshahi Sadar', 'Puthia', 'Godagari'],
-  Khulna: ['Khulna Sadar', 'Dumuria', 'Batiaghata'],
-  Barishal: ['Barishal Sadar', 'Banaripara', 'Uzirpur'],
-  Rangpur: ['Rangpur Sadar', 'Pirganj', 'Badarganj'],
-  Mymensingh: ['Mymensingh Sadar', 'Trishal', 'Fulbaria'],
+  Dhaka: ["Dhanmondi", "Uttara", "Gulshan", "Mirpur"],
+  Chittagong: ["Pahartali", "Kotwali", "Halishahar", "Sitakunda"],
+  Sylhet: ["Sylhet Sadar", "Beanibazar", "Golapganj"],
+  Rajshahi: ["Rajshahi Sadar", "Puthia", "Godagari"],
+  Khulna: ["Khulna Sadar", "Dumuria", "Batiaghata"],
+  Barishal: ["Barishal Sadar", "Banaripara", "Uzirpur"],
+  Rangpur: ["Rangpur Sadar", "Pirganj", "Badarganj"],
+  Mymensingh: ["Mymensingh Sadar", "Trishal", "Fulbaria"],
 };
 
 const SearchPage = () => {
   const [formData, setFormData] = useState({
-    bloodGroup: '',
-    district: '',
-    upazila: '',
+    bloodGroup: "",
+    district: "",
+    upazila: "",
   });
 
   const [donors, setDonors] = useState([]);
-  const [upazilas, setUpazilas] = useState([]);  // New state to manage upazilas
+  const [upazilas, setUpazilas] = useState([]); // New state to manage upazilas
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-  
+
     // If district is changed, update district and reset upazila
-    if (name === 'district') {
-      setFormData({ ...formData, [name]: value, upazila: '' }); // Reset upazila when district changes
-      setUpazilas(locationData[value] || []);  // Update upazila list based on selected district
+    if (name === "district") {
+      setFormData({ ...formData, [name]: value, upazila: "" }); // Reset upazila when district changes
+      setUpazilas(locationData[value] || []); // Update upazila list based on selected district
     } else {
       setFormData({ ...formData, [name]: value });
     }
   };
-  
 
   const handleSearch = async (e) => {
     e.preventDefault();
     const { bloodGroup, district, upazila } = formData;
-  
+
     try {
-      const response = await fetch('http://localhost:3000/donor');
+      const response = await fetch("http://localhost:3000/donor");
       const data = await response.json();
-  
+
       // Filtering data based on user inputs
       const filteredDonors = data.filter((donor) => {
         return (
@@ -50,23 +50,30 @@ const SearchPage = () => {
           (upazila ? donor.upazila === upazila : true)
         );
       });
-  
+
       setDonors(filteredDonors); // Update state with filtered data
     } catch (error) {
-      console.error('Error fetching donors:', error);
+      console.error("Error fetching donors:", error);
     }
   };
-  
 
   return (
     <div className="min-h-[500px] bg-gray-100 flex flex-col items-center p-5">
-      <h1 className="text-3xl font-bold text-gray-800 mb-5">Search for Blood Donors</h1>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Search - BloodDonate</title>
+      </Helmet>
+      <h1 className="text-3xl font-bold text-gray-800 mb-5">
+        Search for Blood Donors
+      </h1>
       <form
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-lg"
         onSubmit={handleSearch}
       >
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Blood Group</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Blood Group
+          </label>
           <select
             name="bloodGroup"
             value={formData.bloodGroup}
@@ -86,7 +93,9 @@ const SearchPage = () => {
           </select>
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">District</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            District
+          </label>
           <select
             name="district"
             value={formData.district}
@@ -103,7 +112,9 @@ const SearchPage = () => {
           </select>
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Upazila</label>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Upazila
+          </label>
           <select
             name="upazila"
             value={formData.upazila}
@@ -132,7 +143,10 @@ const SearchPage = () => {
             <h2 className="text-xl font-bold text-gray-700 mb-3">Donor List</h2>
             <ul>
               {donors.map((donor) => (
-                <li key={donor._id} className="p-4 bg-white shadow mb-3 rounded">
+                <li
+                  key={donor._id}
+                  className="p-4 bg-white shadow mb-3 rounded"
+                >
                   <p>Name: {donor.name}</p>
                   <p>Blood Group: {donor.bloodGroup}</p>
                   <p>District: {donor.district}</p>
@@ -142,7 +156,9 @@ const SearchPage = () => {
             </ul>
           </div>
         ) : (
-          <p className="text-gray-500 text-sm">No donors found. Try searching with different criteria.</p>
+          <p className="text-gray-500 text-sm">
+            No donors found. Try searching with different criteria.
+          </p>
         )}
       </div>
     </div>

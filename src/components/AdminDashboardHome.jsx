@@ -36,7 +36,7 @@ const AdminDashboardHome = () => {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Welcome to Admin Dashboard</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid  grid-cols-1 sm:grid-cols-1 gap-4">
         <div className="p-4 bg-blue-100 rounded shadow">
           <h2 className="text-lg font-medium">Total Users</h2>
           <p className="text-3xl font-bold">{totalUsers}</p>

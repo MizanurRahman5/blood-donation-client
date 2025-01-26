@@ -1,9 +1,14 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import {Helmet} from "react-helmet";
 
 const AdminDashboardLayout = () => {
   return (
     <div className="flex min-h-screen">
+      <Helmet>
+                <meta charSet="utf-8" />
+                <title>Admin Dashboard - BloodDonate</title>
+            </Helmet>
       {/* Sidebar */}
       <div className="w-64 bg-red-600 text-white flex flex-col min-h-screen">
         {/* Header Section */}

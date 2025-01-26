@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { AuthContex } from '../../Provider/AuthProvider';
+import React, { useContext, useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { AuthContex } from "../../Provider/AuthProvider";
+import { Helmet } from "react-helmet";
 
 const DonationRequestDetails = () => {
   const navigate = useNavigate();
@@ -13,10 +14,12 @@ const DonationRequestDetails = () => {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/donation-requests/${id}`);
+        const response = await axios.get(
+          `http://localhost:3000/donation-requests/${id}`
+        );
         setRequestDetails(response.data);
       } catch (error) {
-        console.error('Error fetching details:', error);
+        console.error("Error fetching details:", error);
       }
     };
     fetchDetails();
@@ -25,15 +28,15 @@ const DonationRequestDetails = () => {
   const handleConfirmDonation = async () => {
     try {
       await axios.put(`http://localhost:3000/donation-requests/${id}`, {
-        status: 'inprogress',
-        donorName: user?.name || 'Guest User',
-        donorEmail: user?.email || 'guest@example.com',
+        status: "inprogress",
+        donorName: user?.name || "Guest User",
+        donorEmail: user?.email || "guest@example.com",
       });
-      alert('Donation confirmed successfully!');
+      alert("Donation confirmed successfully!");
       setIsModalOpen(false);
-      navigate('/donation-requests');
+      navigate("/donation-requests");
     } catch (error) {
-      console.error('Error confirming donation:', error);
+      console.error("Error confirming donation:", error);
     }
   };
 
@@ -41,17 +44,38 @@ const DonationRequestDetails = () => {
 
   return (
     <div className="max-w-6xl min-h-[600px] mx-auto p-6 bg-red-50">
-      <h1 className="text-3xl font-bold text-red-700 mb-6 text-center">Donation Request Details</h1>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Details - BloodDonate</title>
+      </Helmet>
+      <h1 className="text-3xl font-bold text-red-700 mb-6 text-center">
+        Donation Request Details
+      </h1>
 
       <div className="bg-red-100 p-6 rounded-lg shadow-md">
-        <p className="text-xl text-red-800 mb-2"><strong>Recipient Name:</strong> {requestDetails.recipientName}</p>
-        <p className="text-lg text-red-800 mb-2"><strong>Blood Group:</strong> {requestDetails.bloodGroup}</p>
-        <p className="text-lg text-red-800 mb-2"><strong>Location:</strong> {requestDetails.recipientDistrict}, {requestDetails.recipientUpazila}</p>
-        <p className="text-lg text-red-800 mb-2"><strong>Hospital:</strong> {requestDetails.hospitalName}</p>
-        <p className="text-lg text-red-800 mb-2"><strong>Address:</strong> {requestDetails.fullAddress}</p>
-        <p className="text-lg text-red-800 mb-2"><strong>Date & Time:</strong> {requestDetails.donationDate} at {requestDetails.donationTime}</p>
-        <p className="text-lg text-red-800 mb-2"><strong>Message:</strong> {requestDetails.requestMessage}</p>
-        
+        <p className="text-xl text-red-800 mb-2">
+          <strong>Recipient Name:</strong> {requestDetails.recipientName}
+        </p>
+        <p className="text-lg text-red-800 mb-2">
+          <strong>Blood Group:</strong> {requestDetails.bloodGroup}
+        </p>
+        <p className="text-lg text-red-800 mb-2">
+          <strong>Location:</strong> {requestDetails.recipientDistrict},{" "}
+          {requestDetails.recipientUpazila}
+        </p>
+        <p className="text-lg text-red-800 mb-2">
+          <strong>Hospital:</strong> {requestDetails.hospitalName}
+        </p>
+        <p className="text-lg text-red-800 mb-2">
+          <strong>Address:</strong> {requestDetails.fullAddress}
+        </p>
+        <p className="text-lg text-red-800 mb-2">
+          <strong>Date & Time:</strong> {requestDetails.donationDate} at{" "}
+          {requestDetails.donationTime}
+        </p>
+        <p className="text-lg text-red-800 mb-2">
+          <strong>Message:</strong> {requestDetails.requestMessage}
+        </p>
       </div>
 
       <button
@@ -69,22 +93,33 @@ const DonationRequestDetails = () => {
           }}
         >
           <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-            <h2 className="text-2xl font-bold text-red-600 mb-6">Confirm Your Donation</h2>
-            <form onSubmit={(e) => { e.preventDefault(); handleConfirmDonation(); }}>
+            <h2 className="text-2xl font-bold text-red-600 mb-6">
+              Confirm Your Donation
+            </h2>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleConfirmDonation();
+              }}
+            >
               <div className="mb-4">
-                <label className="block font-medium text-red-600">Donor Name</label>
+                <label className="block font-medium text-red-600">
+                  Donor Name
+                </label>
                 <input
                   type="text"
-                  value={user?.name || 'Guest User'}
+                  value={user?.name || "Guest User"}
                   readOnly
                   className="w-full border p-3 rounded bg-gray-100 text-red-700"
                 />
               </div>
               <div className="mb-4">
-                <label className="block font-medium text-red-600">Donor Email</label>
+                <label className="block font-medium text-red-600">
+                  Donor Email
+                </label>
                 <input
                   type="email"
-                  value={user?.email || 'guest@example.com'}
+                  value={user?.email || "guest@example.com"}
                   readOnly
                   className="w-full border p-3 rounded bg-gray-100 text-red-700"
                 />
