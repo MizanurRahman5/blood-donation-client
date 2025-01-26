@@ -10,7 +10,7 @@ const Banner = () => {
       <div className="relative bg-red-50 py-20">
         <div className="absolute inset-0 bg-cover bg-center mix-blend-overlay" style={{ backgroundImage: "url('https://via.placeholder.com/1920x1080/ff7f7f/ffffff')" }}></div>
         <div className="max-w-6xl mx-auto  text-gray relative z-10">
-          <h1 className="text-4xl md:text-6xl font-bold drop-shadow-xl mb-4">SMS-based platform to connect blood searchers with donors</h1>
+          <h1 className="text-4xl md:text-6xl font-bold drop-shadow-xl mb-4">Blood Donation platform to connect blood searchers with donors</h1>
           <p className="text-lg md:text-xl drop-shadow-xl mb-6">
             Rokto is a real-time free platform to help blood searchers connect voluntary blood donors around Bangladesh.
           </p>

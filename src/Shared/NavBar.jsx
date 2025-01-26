@@ -156,7 +156,7 @@ const Navbar = () => {
                 <img
                   src={profileData.avatar || "https://via.placeholder.com/32"}
                   alt="User Avatar"
-                  className="w-8 h-8 rounded-full"
+                  className="w-8 h-8 border border-red-500 rounded-full"
                 />
                 <span>{profileData.name || "Profile"}</span>
               </button>
