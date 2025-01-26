@@ -138,7 +138,7 @@ const ProfilePage = () => {
         {isEditing && (
           <button
             type="submit"  
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+            className="mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded"
           >
             Save
           </button>

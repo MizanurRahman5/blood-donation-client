@@ -59,7 +59,7 @@ const SearchPage = () => {
   
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-5">
+    <div className="min-h-[500px] bg-gray-100 flex flex-col items-center p-5">
       <h1 className="text-3xl font-bold text-gray-800 mb-5">Search for Blood Donors</h1>
       <form
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-lg"
@@ -121,7 +121,7 @@ const SearchPage = () => {
         </div>
         <button
           type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
           Search
         </button>

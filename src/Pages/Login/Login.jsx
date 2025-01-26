@@ -109,7 +109,7 @@ const Login = () => {
             Don't have an account?{" "}
             <span
               onClick={() => navigate("/register")}
-              className="text-blue-500 cursor-pointer hover:underline"
+              className="text-red-500 cursor-pointer hover:underline"
             >
               Register here
             </span>

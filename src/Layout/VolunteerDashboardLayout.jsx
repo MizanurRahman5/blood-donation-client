@@ -28,8 +28,6 @@ const VolunteerDashboardLayout = () => {
               </NavLink>
             </li>
 
-            
-
             {/* Blood Donation Requests */}
             <li>
               <NavLink
@@ -55,6 +53,22 @@ const VolunteerDashboardLayout = () => {
                 }
               >
                 Content Management
+              </NavLink>
+            </li>
+            {/* Divider */}
+            <hr className="my-4 border-red-700" />
+
+            {/* Home Menu - 2nd Home */}
+            <li>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive
+                    ? "bg-red-700 p-3 rounded-md shadow-lg block"
+                    : "hover:bg-red-500 p-3 rounded-md block transition duration-300"
+                }
+              >
+                Home
               </NavLink>
             </li>
           </ul>

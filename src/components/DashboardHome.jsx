@@ -163,7 +163,7 @@ const DashboardHome = () => {
       <div className="text-center mt-6">
         <button
           onClick={() => navigate('/dashboard/my-donation-requests')}
-          className="bg-blue-500 text-white px-8 py-3 rounded-lg shadow-md"
+          className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg shadow-md"
         >
           View All My Requests
         </button>

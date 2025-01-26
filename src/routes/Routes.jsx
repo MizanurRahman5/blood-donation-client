@@ -28,6 +28,7 @@ import FundingPage from "../Pages/Funding/Funding";
 import VolunteerDashboardHome from "../components/VolunteerDashboardHome";
 import VolunteerAllUser from "../components/VolunteerAllUser";
 import VolunteerAllDonationRequestPage from "../components/VolunteerAllDonationRequestPage"
+import VolunteerContentManage from "../components/VolunteerContentManage";
 
 
 
@@ -193,6 +194,22 @@ export const router = createBrowserRouter([
         element:<PrivateRoute>
           <VolunteerAllDonationRequestPage/>
         </PrivateRoute>
+      },
+      { 
+        path: "content-management", 
+        element: (
+          <PrivateRoute adminOnly>
+            <VolunteerContentManage/>
+          </PrivateRoute>
+        ), 
+      },
+      { 
+        path: "add-blog", 
+        element: (
+          <PrivateRoute adminOnly>
+            <AddBlog />
+          </PrivateRoute>
+        ), 
       }
     ]
   }

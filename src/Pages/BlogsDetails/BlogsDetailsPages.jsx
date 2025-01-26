@@ -17,7 +17,8 @@ const BlogDetailPage = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-4xl font-bold mb-4">{blog.title}</h1>
+        <img src={blog.thumbnail} alt="" />
+      <h1 className="text-4xl text-red-600 font-bold mb-4">{blog.title}</h1>
       <p className="text-gray-500 text-sm mb-2">By {blog.author} on {new Date(blog.createdAt).toLocaleDateString()}</p>
       <div className="mb-6">
         <p className="text-xl">{blog.content}</p>

@@ -1,5 +1,5 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
   return (
@@ -12,28 +12,14 @@ const Sidebar = () => {
       {/* Navigation Links Section */}
       <nav className="flex-1 overflow-y-auto">
         <ul className="space-y-4 px-6 pt-4">
-          {/* Home Menu */}
-          <li>
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                isActive
-                  ? 'bg-red-700 p-3 rounded-md shadow-lg block'
-                  : 'hover:bg-red-500 p-3 rounded-md block transition duration-300'
-              }
-            >
-              Home
-            </NavLink>
-          </li>
-
           {/* Dashboard Menu */}
           <li>
             <NavLink
               to="/dashboard"
               className={({ isActive }) =>
                 isActive
-                  ? 'bg-red-700 p-3 rounded-md shadow-lg block'
-                  : 'hover:bg-red-500 p-3 rounded-md block transition duration-300'
+                  ? "bg-red-700 p-3 rounded-md shadow-lg block"
+                  : "hover:bg-red-500 p-3 rounded-md block transition duration-300"
               }
             >
               Dashboard Home
@@ -46,8 +32,8 @@ const Sidebar = () => {
               to="/dashboard/profile"
               className={({ isActive }) =>
                 isActive
-                  ? 'bg-red-700 p-3 rounded-md shadow-lg block'
-                  : 'hover:bg-red-500 p-3 rounded-md block transition duration-300'
+                  ? "bg-red-700 p-3 rounded-md shadow-lg block"
+                  : "hover:bg-red-500 p-3 rounded-md block transition duration-300"
               }
             >
               Profile
@@ -60,8 +46,8 @@ const Sidebar = () => {
               to="/dashboard/my-donation-requests"
               className={({ isActive }) =>
                 isActive
-                  ? 'bg-red-700 p-3 rounded-md shadow-lg block'
-                  : 'hover:bg-red-500 p-3 rounded-md block transition duration-300'
+                  ? "bg-red-700 p-3 rounded-md shadow-lg block"
+                  : "hover:bg-red-500 p-3 rounded-md block transition duration-300"
               }
             >
               My Donation Requests
@@ -74,14 +60,29 @@ const Sidebar = () => {
               to="/dashboard/create-donation-request"
               className={({ isActive }) =>
                 isActive
-                  ? 'bg-red-700 p-3 rounded-md shadow-lg block'
-                  : 'hover:bg-red-500 p-3 rounded-md block transition duration-300'
+                  ? "bg-red-700 p-3 rounded-md shadow-lg block"
+                  : "hover:bg-red-500 p-3 rounded-md block transition duration-300"
               }
             >
               Create Donation Request
             </NavLink>
           </li>
+          {/* Divider */}
+          <hr className="my-4 border-red-700" />
 
+          {/* Home Menu - 2nd Home */}
+          <li>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive
+                  ? "bg-red-700 p-3 rounded-md shadow-lg block"
+                  : "hover:bg-red-500 p-3 rounded-md block transition duration-300"
+              }
+            >
+              Home
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </div>

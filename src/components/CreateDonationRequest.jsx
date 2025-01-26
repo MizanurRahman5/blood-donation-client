@@ -1,6 +1,18 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2"; // Import SweetAlert2
 import { AuthContex } from "../Provider/AuthProvider"; // Assuming AuthContext is providing user data
+
+const locationData = {
+  Dhaka: ['Dhanmondi', 'Uttara', 'Gulshan', 'Mirpur'],
+  Chittagong: ['Pahartali', 'Kotwali', 'Halishahar', 'Sitakunda'],
+  Sylhet: ['Sylhet Sadar', 'Beanibazar', 'Golapganj'],
+  Rajshahi: ['Rajshahi Sadar', 'Puthia', 'Godagari'],
+  Khulna: ['Khulna Sadar', 'Dumuria', 'Batiaghata'],
+  Barishal: ['Barishal Sadar', 'Banaripara', 'Uzirpur'],
+  Rangpur: ['Rangpur Sadar', 'Pirganj', 'Badarganj'],
+  Mymensingh: ['Mymensingh Sadar', 'Trishal', 'Fulbaria'],
+};
 
 const CreateDonationRequest = () => {
   const { user } = useContext(AuthContex); // Get user data from context
@@ -16,47 +28,51 @@ const CreateDonationRequest = () => {
     requestMessage: "",
   });
   const [profileData, setProfileData] = useState({
-      name: '',
-      email: '',
-      avatar: '',
-      district: '',
-      upazila: '',
-      bloodGroup: '',
-    });
+    name: '',
+    email: '',
+    avatar: '',
+    district: '',
+    upazila: '',
+    bloodGroup: '',
+  });
+  const [upazilas, setUpazilas] = useState([]);
   const navigate = useNavigate();
 
   // Check if user is blocked
   const isBlocked = user?.status === "blocked";
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!user?.email) {
+        console.error('No email found for the user.');
+        return;
+      }
+
+      try {
+        // API call with email to get data for the logged-in user only
+        const response = await fetch(`http://localhost:3000/user?email=${user.email}`);
+        const data = await response.json();
+
+        if (response.ok) {
+          setProfileData(data); // Set profile data if successful
+        } else {
+          console.error('Failed to fetch user data:', data);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchUserData(); // Fetch user data if email exists
+  }, [user]); // Dependency array, will run whenever `user` changes
 
   useEffect(() => {
-      const fetchUserData = async () => {
-        if (!user?.email) {
-          console.error('No email found for the user.');
-          return;
-        }
-  
-        try {
-          // API call with email to get data for the logged-in user only
-          const response = await fetch(`http://localhost:3000/user?email=${user.email}`);
-          const data = await response.json();
-  
-          if (response.ok) {
-            setProfileData(data); // Set profile data if successful
-          } else {
-            console.error('Failed to fetch user data:', data);
-          }
-        } catch (error) {
-          console.error('Error:', error);
-        }
-      };
-  
-      fetchUserData(); // Fetch user data if email exists
-    }, [user]); // Dependency array, will run whenever `user` changes
-
-
-
-
+    if (formData.recipientDistrict) {
+      setUpazilas(locationData[formData.recipientDistrict] || []);
+    } else {
+      setUpazilas([]);
+    }
+  }, [formData.recipientDistrict]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -106,13 +122,31 @@ const CreateDonationRequest = () => {
 
       const result = await response.json();
       if (response.ok) {
-        alert("Donation request created successfully!");
-        navigate("/dashboard"); // Redirecting to dashboard after success
+        // SweetAlert success
+        Swal.fire({
+          title: 'Success!',
+          text: 'Donation request created successfully!',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          navigate("/dashboard"); // Redirecting to dashboard after success
+        });
       } else {
-        alert(result.message || "Failed to create donation request.");
+        Swal.fire({
+          title: 'Error!',
+          text: result.message || 'Failed to create donation request.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
       }
     } catch (error) {
       console.error("Error while creating donation request:", error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Something went wrong, please try again.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     }
   };
 
@@ -162,10 +196,11 @@ const CreateDonationRequest = () => {
             className="w-full px-4 py-2 border rounded"
           >
             <option value="">Select District</option>
-            <option value="Dhaka">Dhaka</option>
-            <option value="Chittagong">Chittagong</option>
-            <option value="Sylhet">Sylhet</option>
-            {/* Add more options as needed */}
+            {Object.keys(locationData).map((district) => (
+              <option key={district} value={district}>
+                {district}
+              </option>
+            ))}
           </select>
         </div>
         <div className="mb-4">
@@ -178,10 +213,11 @@ const CreateDonationRequest = () => {
             className="w-full px-4 py-2 border rounded"
           >
             <option value="">Select Upazila</option>
-            <option value="Gulshan">Gulshan</option>
-            <option value="Banani">Banani</option>
-            <option value="Dhanmondi">Dhanmondi</option>
-            {/* Add more options as needed */}
+            {upazilas.map((upazila) => (
+              <option key={upazila} value={upazila}>
+                {upazila}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -270,7 +306,7 @@ const CreateDonationRequest = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="bg-blue-500 text-white px-6 py-3 rounded w-full"
+          className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded w-full"
         >
           Create Request
         </button>
