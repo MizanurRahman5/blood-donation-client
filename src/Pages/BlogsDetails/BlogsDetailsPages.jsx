@@ -17,7 +17,7 @@ const BlogDetailPage = () => {
   if (!blog) return <div>Loading...</div>;
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container min-h-screen mx-auto p-6">
         <Helmet>
                 <meta charSet="utf-8" />
                 <title>Blog - BloodDonate</title>
