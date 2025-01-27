@@ -109,85 +109,86 @@ const Navbar = () => {
 
         {/* Links */}
         <div
-          className={`${
-            isMobileMenuOpen ? "block" : "hidden"
-          } md:flex font-semibold space-y-4 md:space-y-0 md:space-x-8 absolute md:static left-0 top-[70px] w-full md:w-auto bg-red-600 md:bg-transparent py-4 md:py-0 px-6 md:px-0`}
+  className={`${
+    isMobileMenuOpen ? "block" : "hidden"
+  } md:flex font-semibold space-y-4 md:space-y-0 md:space-x-8 absolute md:static left-0 top-[70px] w-full md:w-auto bg-red-600 md:bg-transparent py-4 md:py-0 px-6 md:px-0 flex flex-col md:flex-row`}
+>
+  <NavLink
+    to="/donation-requests"
+    className={({ isActive }) =>
+      isActive ? "text-gray-200" : "hover:text-gray-200"
+    }
+  >
+    Donation Requests
+  </NavLink>
+  <NavLink
+    to="/blog"
+    className={({ isActive }) =>
+      isActive ? "text-gray-200" : "hover:text-gray-200"
+    }
+  >
+    Blog
+  </NavLink>
+  <NavLink
+    to="/search"
+    className={({ isActive }) =>
+      isActive ? "text-gray-200" : "hover:text-gray-200"
+    }
+  >
+    Search Donors
+  </NavLink>
+  {!user ? (
+    <NavLink
+      to="/login"
+      className={({ isActive }) =>
+        isActive ? "text-gray-200" : "hover:text-gray-200"
+      }
+    >
+      Login
+    </NavLink>
+  ) : (
+    <div className="relative">
+      {/* User Avatar with Dropdown */}
+      <button
+        className="flex items-center space-x-2"
+        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+      >
+        <img
+          src={profileData.avatar || "https://via.placeholder.com/32"}
+          alt="User Avatar"
+          className="w-8 h-8 border border-red-500 rounded-full"
+        />
+        <span>{profileData.name || "Profile"}</span>
+      </button>
+      {/* Dropdown */}
+      <div
+        className={`absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-md ${
+          isDropdownOpen ? "block" : "hidden"
+        }`}
+      >
+        <NavLink
+          to={
+            profileData.role === "admin"
+              ? "/admin-dashboard"
+              : profileData.role === "volunteer"
+              ? "/volunteer-dashboard"
+              : "/dashboard"
+          }
+          className="block px-4 py-2 hover:bg-gray-200"
         >
-          <NavLink
-            to="/donation-requests"
-            className={({ isActive }) =>
-              isActive ? "text-gray-200" : "hover:text-gray-200"
-            }
-          >
-            Donation Requests
-          </NavLink>
-          <NavLink
-            to="/blog"
-            className={({ isActive }) =>
-              isActive ? "text-gray-200" : "hover:text-gray-200"
-            }
-          >
-            Blog
-          </NavLink>
-          <NavLink
-            to="/search"
-            className={({ isActive }) =>
-              isActive ? "text-gray-200" : "hover:text-gray-200"
-            }
-          >
-            Search Donors
-          </NavLink>
-          {!user ? (
-            <NavLink
-              to="/login"
-              className={({ isActive }) =>
-                isActive ? "text-gray-200" : "hover:text-gray-200"
-              }
-            >
-              Login
-            </NavLink>
-          ) : (
-            <div className="relative">
-              {/* User Avatar with Dropdown */}
-              <button
-                className="flex items-center space-x-2"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              >
-                <img
-                  src={profileData.avatar || "https://via.placeholder.com/32"}
-                  alt="User Avatar"
-                  className="w-8 h-8 border border-red-500 rounded-full"
-                />
-                <span>{profileData.name || "Profile"}</span>
-              </button>
-              {/* Dropdown */}
-              <div
-                className={`absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-md ${
-                  isDropdownOpen ? "block" : "hidden"
-                }`}
-              >
-                <NavLink
-                  to={
-                    profileData.role === "admin"
-                      ? "/admin-dashboard"
-                      : profileData.role === "volunteer"
-                      ? "/volunteer-dashboard"
-                      : "/dashboard"
-                  }
-                  className="block px-4 py-2 hover:bg-gray-200"
-                >
-                  Dashboard
-                </NavLink>
-                <button
-                  onClick={handleLogout}
-                  className="block w-full text-left px-4 py-2 hover:bg-gray-200"
-                >
-                  Logout
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
+          Dashboard
+        </NavLink>
+        <button
+          onClick={handleLogout}
+          className="block w-full text-left px-4 py-2 hover:bg-gray-200"
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  )}
+</div>
+
       </div>
     </nav>
   );
