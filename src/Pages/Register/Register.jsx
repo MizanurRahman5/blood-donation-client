@@ -4,6 +4,7 @@ import { AuthContex } from '../../Provider/AuthProvider';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Helmet} from "react-helmet";
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const imag_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${imag_hosting_key}`;
@@ -22,7 +23,7 @@ const locationData = {
 
 const Register = () => {
   const { createUser, setUser } = useContext(AuthContex);
-
+  const navigate = useNavigate(); // Initialize navigate
   const [formData, setFormData] = useState({
     email: '',
     name: '',
@@ -69,14 +70,22 @@ const Register = () => {
   // Handle form submission
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate password
+  
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  
+    if (!passwordRegex.test(formData.password)) {
+      notifyError(
+        'Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.'
+      );
+      return;
+    }
+  
     if (formData.password !== formData.confirmPassword) {
       notifyError('Passwords do not match!');
       return;
     }
-
-    // Validate required fields
+  
     if (
       !formData.email ||
       !formData.name ||
@@ -87,13 +96,13 @@ const Register = () => {
       notifyError('Please fill out all required fields!');
       return;
     }
-
+  
     try {
       setLoading(true);
-
+  
       // Firebase user creation
       await createUser(formData.email, formData.password);
-
+  
       const newUser = {
         email: formData.email,
         name: formData.name,
@@ -104,30 +113,21 @@ const Register = () => {
         role: 'donor',
         status: 'active',
       };
-
+  
       // Set user in AuthContext
       setUser(newUser);
-
+  
       // Send user data to the backend
-      fetch('https://blood-donation-server-site-opal.vercel.app/user', {
+      await fetch('https://blood-donation-server-site-opal.vercel.app/user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(newUser),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-      
-      
-
+      });
+  
       notifySuccess('Registration successful!');
-
+  
       // Reset form
       setFormData({
         email: '',
@@ -139,6 +139,9 @@ const Register = () => {
         password: '',
         confirmPassword: '',
       });
+  
+      // Redirect to Home Page
+      navigate('/'); // Redirect to the home page
     } catch (error) {
       console.error('Error registering user:', error.message);
       notifyError('Registration failed. Please try again.');
