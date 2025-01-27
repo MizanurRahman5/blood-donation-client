@@ -23,7 +23,7 @@ const ProfilePage = () => {
 
       try {
         // API call with email to get data for the logged-in user only
-        const response = await fetch(`http://localhost:3000/user?email=${user.email}`);
+        const response = await fetch(`https://blood-donation-server-site-opal.vercel.app/user?email=${user.email}`);
         const data = await response.json();
 
         if (response.ok) {
@@ -47,7 +47,7 @@ const ProfilePage = () => {
     e.preventDefault(); // Prevent form submission (page reload)
 
     try {
-      const response = await fetch(`http://localhost:3000/user?email=${user.email}`, {
+      const response = await fetch(`https://blood-donation-server-site-opal.vercel.app/user?email=${user.email}`, {
         method: 'PUT', // HTTP PUT request for updating data
         headers: {
           'Content-Type': 'application/json',

@@ -8,7 +8,7 @@ const Blogs = () => {
 
   useEffect(() => {
     // Fetching published blogs from the backend (e.g., MongoDB)
-    fetch("http://localhost:3000/blogs")
+    fetch("https://blood-donation-server-site-opal.vercel.app/blogs")
       .then((response) => response.json())
       .then((data) => setBlogs(data))
       .catch((err) => console.error("Error fetching blogs:", err));

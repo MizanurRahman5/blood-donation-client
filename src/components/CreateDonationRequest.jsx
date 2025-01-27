@@ -50,7 +50,7 @@ const CreateDonationRequest = () => {
 
       try {
         // API call with email to get data for the logged-in user only
-        const response = await fetch(`http://localhost:3000/user?email=${user.email}`);
+        const response = await fetch(`https://blood-donation-server-site-opal.vercel.app/user?email=${user.email}`);
         const data = await response.json();
 
         if (response.ok) {
@@ -114,7 +114,7 @@ const CreateDonationRequest = () => {
 
     // API call
     try {
-      const response = await fetch("http://localhost:3000/donation-requests", {
+      const response = await fetch("https://blood-donation-server-site-opal.vercel.app/donation-requests", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(donationRequest),

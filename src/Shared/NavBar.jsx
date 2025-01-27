@@ -22,13 +22,13 @@ const Navbar = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       if (!user?.email) {
-        console.error("No email found for the user.");
+        
         return;
       }
 
       try {
         const response = await fetch(
-          `http://localhost:3000/user?email=${user.email}`
+          `https://blood-donation-server-site-opal.vercel.app/user?email=${user.email}`
         );
         const data = await response.json();
 

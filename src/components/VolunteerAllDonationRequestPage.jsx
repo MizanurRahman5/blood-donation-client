@@ -14,7 +14,7 @@ const VolunteerAllDonationRequestPage = () => {
 
     const fetchDonationRequests = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/all-donation-requests`);
+        const response = await fetch(`https://blood-donation-server-site-opal.vercel.app/all-donation-requests`);
         const data = await response.json();
 
         if (response.ok) {
@@ -34,7 +34,7 @@ const VolunteerAllDonationRequestPage = () => {
   // Handle updating donation status
   const handleStatusChange = async (id, status) => {
     try {
-      const response = await fetch(`http://localhost:3000/donation-requests/${id}`, {
+      const response = await fetch(`https://blood-donation-server-site-opal.vercel.app/donation-requests/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status }),

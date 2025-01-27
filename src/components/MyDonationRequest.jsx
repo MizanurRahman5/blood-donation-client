@@ -15,7 +15,7 @@ const MyDonationRequests = () => {
     const fetchDonationRequests = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/donation-requests?email=${user.email}`
+          `https://blood-donation-server-site-opal.vercel.app/donation-requests?email=${user.email}`
         );
         const data = await response.json();
 
@@ -37,7 +37,7 @@ const MyDonationRequests = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/donation-requests/${id}`,
+        `https://blood-donation-server-site-opal.vercel.app/donation-requests/${id}`,
         {
           method: "DELETE",
         }
@@ -61,7 +61,7 @@ const MyDonationRequests = () => {
   const handleStatusChange = async (id, status) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/donation-requests/${id}`,
+        `https://blood-donation-server-site-opal.vercel.app/donation-requests/${id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

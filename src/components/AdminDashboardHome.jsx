@@ -8,14 +8,18 @@ const AdminDashboardHome = () => {
   useEffect(() => {
     // Fetch total users from backend API
     const fetchTotalUsers = async () => {
-      const response = await fetch("http://localhost:3000/users"); // API endpoint to get users
+      const response = await fetch("https://blood-donation-server-site-opal.vercel.app/users",  {
+        headers:{
+          authorization :`Bearer ${localStorage.getItem('access-token')}`
+        }
+      }); // API endpoint to get users
       const data = await response.json();
       setTotalUsers(data.length); // Assuming you want to show the total number of users
     };
 
     // Fetch total funds from backend API (this could be dynamic)
     const fetchTotalFunds = async () => {
-      const response = await fetch("http://localhost:3000/donation-requests"); // API endpoint to get donations
+      const response = await fetch("https://blood-donation-server-site-opal.vercel.app/donation-requests"); // API endpoint to get donations
       const data = await response.json();
       const totalFunds = data.reduce((sum, donation) => sum + donation.amount, 0); // Assuming donation amount is present in the response
       setTotalFunds(totalFunds);
@@ -23,7 +27,11 @@ const AdminDashboardHome = () => {
 
     // Fetch total blood requests
     const fetchTotalBloodRequests = async () => {
-      const response = await fetch("http://localhost:3000/all-donation-requests");
+      const response = await fetch("https://blood-donation-server-site-opal.vercel.app/all-donation-requests",  {
+        headers:{
+          authorization :`Bearer ${localStorage.getItem('access-token')}`
+        }
+      });
       const data = await response.json();
       setTotalBloodRequests(data.length); // Count total blood requests
     };

@@ -109,7 +109,7 @@ const Register = () => {
       setUser(newUser);
 
       // Send user data to the backend
-      fetch('http://localhost:3000/user', {
+      fetch('https://blood-donation-server-site-opal.vercel.app/user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

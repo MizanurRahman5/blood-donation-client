@@ -9,7 +9,7 @@ const BlogDetailPage = () => {
 
   useEffect(() => {
     // Fetching a specific blog by id from the backend
-    fetch(`http://localhost:3000/blogs/${id}`)
+    fetch(`https://blood-donation-server-site-opal.vercel.app/blogs/${id}`)
       .then(response => response.json())
       .then(data => setBlog(data));
   }, [id]);

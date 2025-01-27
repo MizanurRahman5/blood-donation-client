@@ -11,7 +11,7 @@ const VolunteerAllUser = () => {
   useEffect(() => {
     // Fetch users data
     const fetchUsers = async () => {
-      const response = await fetch("http://localhost:3000/users");
+      const response = await fetch("https://blood-donation-server-site-opal.vercel.app/users");
       const data = await response.json();
       setUsers(data);
     };
@@ -39,7 +39,7 @@ const VolunteerAllUser = () => {
     );
 
     // Send update request to server
-    await fetch(`http://localhost:3000/users/${userId}`, {
+    await fetch(`https://blood-donation-server-site-opal.vercel.app/users/${userId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +57,7 @@ const VolunteerAllUser = () => {
     );
 
     // Send update request to server
-    await fetch(`http://localhost:3000/users/${userId}`, {
+    await fetch(`https://blood-donation-server-site-opal.vercel.app/users/${userId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

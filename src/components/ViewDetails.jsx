@@ -15,7 +15,7 @@ const ViewDetails = () => {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/donation-requests/${id}`);
+        const response = await axios.get(`https://blood-donation-server-site-opal.vercel.app/donation-requests/${id}`);
         setRequestDetails(response.data);
       } catch (error) {
         console.error('Error fetching details:', error);
@@ -27,7 +27,7 @@ const ViewDetails = () => {
   // Handle confirm donation
   const handleConfirmDonation = async () => {
     try {
-      await axios.put(`http://localhost:3000/donation-requests/${id}`, {
+      await axios.put(`https://blood-donation-server-site-opal.vercel.app/donation-requests/${id}`, {
         status: 'inprogress',
         donorName: user?.name || 'Guest User',
         donorEmail: user?.email || 'guest@example.com',

@@ -20,7 +20,7 @@ const AddBlog = () => {
     };
   
     try {
-      const response = await fetch("http://localhost:3000/blogs", {
+      const response = await fetch("https://blood-donation-server-site-opal.vercel.app/blogs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newBlog),

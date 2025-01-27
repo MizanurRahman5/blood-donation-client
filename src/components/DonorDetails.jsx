@@ -9,7 +9,7 @@ const DonorDetails = () => {
   useEffect(() => {
     const fetchDonationRequest = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/donation-requests/${id}`);
+        const response = await fetch(`https://blood-donation-server-site-opal.vercel.app/donation-requests/${id}`);
         const data = await response.json();
 
         if (response.ok) {

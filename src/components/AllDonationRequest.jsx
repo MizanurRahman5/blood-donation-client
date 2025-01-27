@@ -15,7 +15,11 @@ const AllDonationRequest = () => {
     const fetchDonationRequests = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/all-donation-requests`
+          `https://blood-donation-server-site-opal.vercel.app/all-donation-requests`, {
+            headers:{
+              authorization :`Bearer ${localStorage.getItem('access-token')}`
+            }
+          }
         );
         const data = await response.json();
 
@@ -37,7 +41,7 @@ const AllDonationRequest = () => {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/donation-requests/${id}`,
+        `https://blood-donation-server-site-opal.vercel.app/donation-requests/${id}`,
         {
           method: "DELETE",
         }
@@ -61,7 +65,7 @@ const AllDonationRequest = () => {
   const handleStatusChange = async (id, status) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/donation-requests/${id}`,
+        `https://blood-donation-server-site-opal.vercel.app/donation-requests/${id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

@@ -39,7 +39,7 @@ const SearchPage = () => {
     const { bloodGroup, district, upazila } = formData;
 
     try {
-      const response = await fetch("http://localhost:3000/donor");
+      const response = await fetch("https://blood-donation-server-site-opal.vercel.app/donor");
       const data = await response.json();
 
       // Filtering data based on user inputs

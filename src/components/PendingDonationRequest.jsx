@@ -7,7 +7,7 @@ const PendingDonationRequests = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:3000/pending-donation-requests")
+    fetch("https://blood-donation-server-site-opal.vercel.app/pending-donation-requests")
       .then((res) => res.json())
       .then((data) => setRequests(data))
       .catch((error) => console.error("Error fetching requests:", error));
