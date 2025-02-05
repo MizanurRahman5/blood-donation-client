@@ -8,10 +8,9 @@ Here’s the **README.md** file for your **Blood Donation Application** in a wel
 ## 📌 Overview
 Blood Donation Application is a web platform designed to connect blood donors with recipients efficiently. Users can request blood donations, track their requests, and view donation history, while admins manage approvals and monitor donations.
 
-🔗 **Live Site:** [Click Here](#) *(Replace with actual link)*
+🔗 **Live Site:** [Click Here](#) *((https://blood-donation-389db.web.app))*
 
-## 📸 Screenshot
-![Blood Donation Application](#) *(Add a relevant screenshot here)*
+
 
 ---
 
@@ -77,8 +76,8 @@ The application will be available at `http://localhost:3000/`.
 ---
 
 ## 🌍 Live Project Links  
-- 🔴 **Frontend:** [Deployed on Firebase](#) *([Replace with actual link](https://blood-donation-389db.web.app/))*  
-- 🔵 **Backend:** [Deployed on Heroku](#) *([Replace with actual link](https://blood-donation-server-site-opal.vercel.app/))*  
+- 🔴 **Frontend:** [Deployed on Firebase](#) *((https://blood-donation-389db.web.app/))*  
+- 🔵 **Backend:** [Deployed on Heroku](#) *((https://blood-donation-server-site-opal.vercel.app/))*  
 
 ---
 
