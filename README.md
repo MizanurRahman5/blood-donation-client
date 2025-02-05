@@ -90,6 +90,4 @@ This project is licensed under the MIT License.
 💙 Made with ❤️ for a noble cause! 🩸  
 ```
 
----
 
-This **README.md** follows best practices and includes all necessary sections. Let me know if you need any modifications! 🚀
